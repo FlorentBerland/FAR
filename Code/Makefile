@@ -29,7 +29,7 @@ start: all
 	$(bin_dir)$(name)
 
 download:
-	git pull
+	git pull origin master
 	make
 
 upload: mrproper
