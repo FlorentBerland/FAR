@@ -4,7 +4,7 @@
 #include <string.h>
 #include "headers/driver_ctrl.h"
 #include "headers/driver_cptr.h"
-#include "rectangle.h"
+#include "headers/rectangle.h"
 
 void initialiser_rectangle(r_rect* r, char texte[])
 {

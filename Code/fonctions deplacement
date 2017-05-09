@@ -15,9 +15,8 @@ A faire :
 - etre controlable entre deux etapes (repondre aux messages utilisateur, serveur et capteurs) et reprendre le parcours prevu
 
 Priorite dans le pilotage :
-- utilisateur
+- utilisateurs (serveurs)
 - capteurs
-- serveurs
 - environnement
 - position estimee
 - parcours prevu

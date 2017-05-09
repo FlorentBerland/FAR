@@ -1,6 +1,0 @@
-/tmp/ccgCcYKz.o: dans la fonction « cptr_demarrer »:
-driver_cptr.c:(.text+0x6d): référence indéfinie vers « pthread_create »
-/tmp/ccgCcYKz.o: dans la fonction « cptr_arret »:
-driver_cptr.c:(.text+0x82): référence indéfinie vers « pthread_cancel »
-collect2: error: ld returned 1 exit status
-make: *** [all] Error 1
