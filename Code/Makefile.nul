@@ -1,0 +1,17 @@
+main: main.c headers/driver_ctrl.h headers/driver_cptr.h
+	gcc -o main main.c headers/driver_ctrl.h headers/driver_cptr.h
+
+liste: code/liste.c headers/liste.h
+	gcc -c code/liste.c headers/liste.h
+
+tablach: code/tablach.c headers/tablach.h
+	gcc -c code/tablach.c headers/tablach.h
+
+driver_cptr: code/driver_cptr.c headers/driver_cptr.h
+	gcc -c code/driver_cptr.c headers/driver_cptr.h
+
+driver_ctrl: code/driver_ctrl.c headers/driver_ctrl.h
+	gcc -c code/driver_ctrl.c headers/driver_ctrl.h
+
+gopigo: code/gopigo.c headers/gopigo.h
+	gcc -c code/gopigo.c headers/gopigo.h

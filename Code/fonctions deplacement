@@ -1,0 +1,23 @@
+Fonctions principales :
+- définir l'emplacement de la zone de marquage
+- définir la zone de récupération des ballons
+- définir une zone de départ
+- définir une zone d'arrivée
+- définir une aire de jeu (bordures)
+
+- pouvoir modifier toutes les zones précédentes
+
+A faire :
+- programmer un parcours ideal (selon les regles du jeu)
+- programmer des parcours secondaires si necessaire (changement de strategie de jeu)
+- sauter des etapes du parcours ou en recommencer (decalage, perte de ballon, probleme technique)
+- inserer un parcours secondaire entre deux etapes (eviter un adversaire, aider un équipier, gêner un adversaire)
+- etre controlable entre deux etapes (repondre aux messages utilisateur, serveur et capteurs) et reprendre le parcours prevu
+
+Priorite dans le pilotage :
+- utilisateur
+- capteurs
+- serveurs
+- environnement
+- position estimee
+- parcours prevu

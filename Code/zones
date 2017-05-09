@@ -1,0 +1,54 @@
+terrain
+200
+100
+400
+200
+0
+
+but
+10
+50
+20
+30
+0
+
+distributeur
+180
+80
+40
+40
+0
+
+depart
+180
+20
+0
+0
+0
+
+arrivee
+180
+20
+0
+0
+0
+
+robot
+10
+20
+0
+0
+0
+
+* * * * * * * * * * * * * * * * * * * * * *
+*                                   o o o *
+*                                   o   o *
+*                                   o o o *
+* O O O                      distributeur *
+* O   O                                   *
+* O   O                                   *
+* O O O                                   *
+*  but                                x x *
+*                               robot x x *
+*                                     x x *
+* * * * * * * * * * * * * * * * * * * * * *
