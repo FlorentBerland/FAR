@@ -30,7 +30,6 @@ start: all
 
 download:
 	git pull
-	mkdir $(obj_dir) $(bin_dir)
 	make
 
 upload: mrproper
