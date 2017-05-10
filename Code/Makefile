@@ -1,28 +1,38 @@
-CFLAGS=-lpthread -D_REENTRANT -lm
+name=Robot.exe
 
-all: main.o liste.o tablach.o driver_cptr.o driver_ctrl.o gopigo.o rectangle.o headers/*.h
-	gcc -I headers -o main *.o $(CFLAGS)
+obj_dir=obj/
+data_dir=./
+src_dir=src/
+bin_dir=./
+headers_dir=headers/
+CC=gcc
+CFLAGS=-lpthread -D_REENTRANT -lm
+git=https://www.github.com/FlorentBerland/FAR.git
+EXEC=$(bin_dir)$(name)
+
+all: $(EXEC)
+
+$(bin_dir)$(name): $(obj_dir)liste.o $(obj_dir)main.o $(obj_dir)tablach.o $(obj_dir)driver_cptr.o $(obj_dir)driver_ctrl.o $(obj_dir)gopigo.o $(obj_dir)rectangle.o
+	$(CC) -o $@ $^ $(CFLAGS) -I $(headers_dir)
 
 main.o: main.c
-	gcc -c main.c $(CFLAGS)
+	$(CC) $(CFLAGS) -o main.o -c main.c
 
-liste.o: code/liste.c
-	gcc -c code/liste.c $(CFLAGS)
-
-tablach.o: code/tablach.c
-	gcc -c code/tablach.c $(CFLAGS)
-
-rectangle.o: code/rectangle.c
-	gcc -c code/rectangle.c $(CFLAGS)
-
-driver_cptr.o: code/driver_cptr.c
-	gcc -c code/driver_cptr.c $(CFLAGS)
-
-driver_ctrl.o: code/driver_ctrl.c
-	gcc -c code/driver_ctrl.c $(CFLAGS)
-
-gopigo.o: code/gopigo.c
-	gcc -c code/gopigo.c $(CFLAGS)
+$(obj_dir)%.o: $(src_dir)%.c
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 clean:
-	rm -rf *.o;
+	rm -f $(obj_dir)*.o
+
+mrproper: clean
+	rm -f $(bin_dir)$(name)
+
+start: all
+	$(bin_dir)$(name)
+
+download:
+	git pull && make
+
+upload: mrproper
+	git add *
+
