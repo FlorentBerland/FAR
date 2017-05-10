@@ -1,9 +1,9 @@
 name=Robot.exe
 
 obj_dir=obj/
-data_dir=./
 src_dir=src/
-bin_dir=./
+bin_dir=bin/
+data_dir=$(bin_dir)data/
 headers_dir=headers/
 CC=gcc
 CFLAGS=-lpthread -D_REENTRANT -lm
@@ -35,5 +35,6 @@ download:
 
 upload: mrproper
 	git add *
-	cat $(MSG_COM) | git commit -m
+	git status
+
 
