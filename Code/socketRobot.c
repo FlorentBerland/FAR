@@ -14,9 +14,10 @@
 
 //pouvoir définir la couleur du robot
 
-char adrRobot [15] = "162.111.38.129";
-char idBallon [15] = "0123";
+char adrRobot [15] = "162.38.111.103";
+char idBallon [15] = "1";
 char coulRobot[15] = "rouge" ;// ou "bleu";
+int penalty;
 
 void proc_exit(int sig) {
   wait();
@@ -62,22 +63,48 @@ int main(void) {
 
     if (pid == 0) {
       /* Envoi de donnees au client */
-      char buffer[32] = "";
+      char buffer[50] = "";
       strcat(buffer,adrRobot);
       strcat(buffer,"/");
       strcat(buffer,idBallon);
       strcat(buffer,"/");
       strcat(buffer,coulRobot);
-      send(csock, buffer, 32, 0);
+	    strcat(buffer,"/");
+      send(csock, buffer,50 , 0);
+	    printf("Envoi de %s\n", buffer);
 
-      for(;;) {
+    
         /* Reception de donnees du client */
         int res = recv(csock, buffer, 32, 0);
         if (res == 0)
           exit(0);
-        printf("Recu de la socket %d de %s:%d : %s\n", csock,
-               inet_ntoa(csin.sin_addr), htons(csin.sin_port), buffer);
-      }//for
+        printf("Recu de la socket %d de %s:%d : %s\n", csock, inet_ntoa(csin.sin_addr), htons(csin.sin_port), buffer);
+
+        if (strcmp(buffer,"1")==0) {
+            printf("Je viens de marquer un but.\n");
+            }
+
+        else if (strcmp(buffer,"0")==0) {
+            printf("Mon ballon n'existe pas.\n");
+            }
+
+        else if (strcmp(buffer,"-1")==0) {
+            printf("Je viens de marquer contre mon camp.\n");
+            }
+
+        else if (strcmp(buffer,"J")==0) {
+            printf("Mon propriétaire n'est pas référencé.\n");
+            }
+
+        else {
+          printf("Occurence d'une erreur non gérée\n");
+        }
+
+        if (penalty!=0) {
+          printf("Suite à une faute e votre part, vous avez une pénalité de %i minutes. \n", penalty);
+        }
+
+    
 
       /* Fermeture de la socket dans les deux sens */
       shutdown(csock, 2);

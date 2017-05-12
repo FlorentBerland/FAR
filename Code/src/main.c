@@ -8,8 +8,8 @@
 //#include "../headers/com_interface.h"
 
 //Test de l'infrarouge
-define pin_led 1
-define pin_capt 11
+#define pin_led 1
+#define pin_capt 11
 
 /*
 void detecter_noir(int val, int horloge)
@@ -24,11 +24,13 @@ int main()
 	pinMode(pin_led, "OUTPUT");
 	analogWrite(pin_led, 255);
 	pinMode(pin_capt, "INPUT");
-
+	int i=0;
 	while(true)
-	{
-		printf("%d\n", digitalRead(pin_capt));
+	{	
+		if(i!=pin_led)
+			printf("%d : %d\n", i, digitalRead(pin_capt));
 		sleep(1);
+		i++;
 	}
 
 	return 0;
