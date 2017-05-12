@@ -46,7 +46,7 @@ void* _ctrl_loop(void* args)
 		//printf("\t\e[0;34m%d-ieme calcul de trajectoire\e[0m\n", _ctrl_horloge);
 		// Faire le (sale) boulot
 
-		ctrl_robot = ctrl_anticipation(1)
+		ctrl_robot = ctrl_anticipation(1);
 
 		double angle = _ctrl_angle_objectif();
 		double distance = _ctrl_dist_objectif();
@@ -177,7 +177,7 @@ int _ctrl_temps_obj_angle()
 
 void _ctrl_virage(double angle)
 {
-	int vitesse = (_ctrl_gopigauche+_ctrl_gopidroite)/2;
+	int vitesse = (_ctrl_vit_gopigauche+_ctrl_vit_gopidroite)/2;
 	if(angle>0)
 	{
 		motor1(1, vitesse+10);
@@ -194,9 +194,9 @@ void _ctrl_virage(double angle)
 	}
 }
 
-void _ctrl_arret_virage();
+void _ctrl_arret_virage()
 {
-	int vitesse = (_ctrl_gopigauche+_ctrl_gopidroite)/2;
+	int vitesse = (_ctrl_vit_gopigauche+_ctrl_vit_gopidroite)/2;
 	motor1(1, vitesse);
 	motor2(1, vitesse);
 	_ctrl_vit_gauche = vitesse/100;

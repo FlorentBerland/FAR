@@ -17,7 +17,7 @@
 char adrRobot [15] = "162.38.111.103";
 char idBallon [15] = "1";
 char coulRobot[15] = "rouge" ;// ou "bleu";
-int penalty;
+int penalty = 0;
 
 void proc_exit(int sig) {
   wait();
@@ -86,22 +86,27 @@ int main(void) {
 
         else if (strcmp(buffer,"0")==0) {
             printf("Mon ballon n'existe pas.\n");
+            penalty = 1;
             }
 
         else if (strcmp(buffer,"-1")==0) {
             printf("Je viens de marquer contre mon camp.\n");
+            penalty = 0,5;
             }
 
         else if (strcmp(buffer,"J")==0) {
             printf("Mon propriétaire n'est pas référencé.\n");
+            penalty = 2;
             }
 
         else {
           printf("Occurence d'une erreur non gérée\n");
         }
 
+
+
         if (penalty!=0) {
-          printf("Suite à une faute e votre part, vous avez une pénalité de %i minutes. \n", penalty);
+          printf("Suite à une faute de votre part, vous avez une pénalité de %i minutes. \n", penalty);
         }
 
     
