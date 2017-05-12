@@ -1,6 +1,13 @@
 #ifndef DEF_RECTANGLE
 #define DEF_RECTANGLE
 
+/*
+	Definitions utiles pour le document :
+		relatif : coordonnees dans le repere propre d'un rectangle (toujours specifie)
+		absolu : coordonnees par rapport a l'origine (rectangle toujours precise)
+*/
+
+
 #include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
