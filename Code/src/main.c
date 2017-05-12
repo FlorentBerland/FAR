@@ -6,8 +6,8 @@
 #include "../headers/driver_cptr.h"
 #include "../headers/rectangle.h"
 
-#define pin_led 8
-#define pin_capt 9
+#define pin_led 1
+#define pin_capt 11
 
 void detecter_noir(int val, int horloge)
 {
@@ -19,7 +19,7 @@ int main()
 	init();
 
 	pinMode(pin_led, "OUTPUT");
-	digitalWrite(pin_led, true);
+	analogWrite(pin_led, 255);
 
 	cptr_init();
 	cptr_ajbool_dtct_etat(pin_capt, false, &detecter_noir);
@@ -27,7 +27,7 @@ int main()
 
 
 	fwd();
-	sleep(25);
+	sleep(5);
 	printf("%s\n", "temps ecoule");
 	stop();
 	cptr_arret();
