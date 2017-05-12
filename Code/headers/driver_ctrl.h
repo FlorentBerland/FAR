@@ -34,6 +34,10 @@ bool _ctrl_continuer; // Continuer le pilotage ou terminer les threads
 float _ctrl_vit_gauche; // Vitesse de la roue gauche
 float _ctrl_vit_droite; // Vitesse de la roue droite
 
+// Vitesses donnees a chaque roues au driver du robot
+int _ctrl_vit_gopigauche;
+int _ctrl_vit_gopidroite;
+
 // Initialiser le driver
 int ctrl_init();
 
@@ -90,5 +94,11 @@ int _ctrl_temps_obj_dist();
 
 // Temps en ticks avant d'etre aligne sur l'objectif
 int _ctrl_temps_obj_angle();
+
+// Amorce un virage pour atteindre l'objectif
+void _ctrl_virage(double);
+
+// Arrete le virage sans arreter le mouvement
+void _ctrl_arret_virage();
 
 #endif
