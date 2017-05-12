@@ -47,6 +47,7 @@ r_rect r_t_vers_rect(rectangle_t);
 r_rect r_orienter_abs(r_rect, float);
 
 // Rotation d'un rectangle de n radians autour de son centre
+// (incrementation de l'angle)
 r_rect r_orienter_rel(r_rect, float);
 
 // Rotation d'un rectangle autour d'un centre absolu
