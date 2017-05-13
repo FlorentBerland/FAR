@@ -1,5 +1,6 @@
 name=Wheely
 name_init_bbt=InitBeebotte
+name_vb=ValidBut
 
 obj_dir=obj/
 src_dir=src/
@@ -10,13 +11,17 @@ CC=gcc
 CFLAGS=-lpthread -D_REENTRANT -lm
 EXEC=$(bin_dir)$(name)
 INIT_BBT=$(bin_dir)$(name_init_bbt)
+VB=$(bin_dir)$(name_vb)
 
-all: $(EXEC) $(INIT_BBT)
+all: $(EXEC) $(INIT_BBT) $(VB)
 
 $(EXEC): $(obj_dir)liste.o $(obj_dir)main.o $(obj_dir)tablach.o $(obj_dir)driver_cptr.o $(obj_dir)driver_ctrl.o $(obj_dir)gopigo.o $(obj_dir)rectangle.o $(obj_dir)positionnement.o #$(obj_dir)communication.o $(obj_dir)com_interface.o
 	$(CC) -o $@ $^ $(CFLAGS) -I $(headers_dir)
 
 $(INIT_BBT): $(obj_dir)BeebotteSend.o
+	$(CC) -o $@ $^ $(CFLAGS)
+
+$(VB): $(obj_dir)socketRobot.o
 	$(CC) -o $@ $^ $(CFLAGS)
 
 $(obj_dir)%.o: $(src_dir)%.c
@@ -26,13 +31,13 @@ clean:
 	rm -f $(obj_dir)*.o
 
 mrproper: clean
-	rm -f $(EXEC) $(INIT_BBT)
+	rm -f $(EXEC) $(INIT_BBT) $(VB)
 
 start: all
 	$(INIT_BBT)
-	./monitoring/bin/monitoringServer.farm & $(EXEC)
+	./monitoring/bin/monitoringServer.farm & $(VB) & $(EXEC)
 
-test: all
+test: $(EXEC)
 	$(EXEC)
 
 download:

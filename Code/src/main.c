@@ -25,11 +25,13 @@ void tester_serveur_position()
 
 int main(int argc, char **argv)
 {
+	sleep(8);
+
 	init();
 
-	ctrl_robot = REC_ORIGINE;
-	ctrl_distributeur = (r_rect){ 50, 50, 10, 10, 0 };
-	ctrl_but = (r_rect){ -50, 50, 10, 10, 0};
+	ctrl_robot = (r_rect){ 12.5, 12.5, 10, 20, 0 };
+	ctrl_distributeur = (r_rect){ 12.5, 5*25+12.5, 25, 25, 0 };
+	ctrl_but = (r_rect){ 100, 11*25+12.5, 200, 25, 0};
 
 	ctrl_init();
 	ctrl_demarrer();
