@@ -265,9 +265,9 @@ void _ctrl_arret_virage()
 float _ctrl_calcul_vitesse(int val)
 {
 	if(val >= 0)
-		return MAX(val-15, 0) / (float)20;
+		return MAX(val-15, 0) / (float)25;
 	else
-		return MIN(val+15, 0) / (float)20;
+		return MIN(val+15, 0) / (float)25;
 }
 
 void _ctrl_nouvel_objectif()

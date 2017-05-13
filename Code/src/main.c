@@ -25,18 +25,29 @@ void tester_serveur_position()
 
 int main(int argc, char **argv)
 {
-	sleep(8);
-
-	init();
-
+	int i; for(i=8;i>=1;i--)
+	{
+		printf("Demarrage dans %d secondes\n", i);
+	}
+	
 	ctrl_robot = (r_rect){ 12.5, 12.5, 10, 20, 0 };
 	ctrl_distributeur = (r_rect){ 12.5, 5*25+12.5, 25, 25, 0 };
-	ctrl_but = (r_rect){ 100, 11*25+12.5, 200, 25, 0};
+	ctrl_but = (r_rect){ 100, 11*25+12.5, 200, 25, 0 };
+	ctrl_terrain = (r_rect){ 100, 150, 200, 300, 0 };
 
-	ctrl_init();
+	if(init())
+	{
+		printf("Erreur d'initialisation de gopigo\n");
+		return 1;
+	}
+	if(ctrl_init())
+	{
+		printf("Erreur d'initialisation du driver de controle\n");
+		return 1;
+	}
 	ctrl_demarrer();
 	
-	int i; for(i=1;i<=60;i++)
+	for(i=1;i<=60;i++)
 	{
 		sleep(1);
 		printf("\e[1;31m%d secondes ecoulees\e[0m\n", i);
