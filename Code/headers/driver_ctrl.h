@@ -9,10 +9,13 @@
 #define RAPPORT_VITESSES_MIN .05 // Rapport de vitesse entre les
 // deux roues pour considerer que le robot tourne
 #define CTRL_INTERVALLE_ANALYSE 100 // Intervalle entre deux analyses en ms
-#define ESPACEMENT_ROUES 10 // Ecart entre les roues
-#define DEPORT_ROUES 10 // Distance entre le centre et l'axe des roues
+#define ESPACEMENT_ROUES 12 // Ecart entre les roues
+#define DEPORT_ROUES 3.5 // Distance entre le centre et l'axe des roues
 #define CTRL_INTERVALLE 500 // Pas du moteur physique en ms
 #define CTRL_TEMPS_INFINI -1 // Pas de duree calculable
+#define MIN(a, b) ((a < b) ? a : b) // Utiles pour le calcul de la vitesse
+#define MAX(a, b) ((a > b) ? a : b)
+#define ABS(a) ((a >= 0) ? a : -a)
 
 #include <stdbool.h>
 #include <pthread.h>
@@ -103,5 +106,11 @@ void _ctrl_virage(double);
 
 // Arrete le virage sans arreter le mouvement
 void _ctrl_arret_virage();
+
+// Convertit une vitesse gopigo (0-255) en cm/s
+float _ctrl_calcul_vitesse(int);
+
+// Ajoute a la liste l'objectif suivant lorsque celui en cours est atteint
+void _ctrl_nouvel_objectif();
 
 #endif

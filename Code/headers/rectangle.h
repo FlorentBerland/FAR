@@ -114,4 +114,13 @@ void r_afficher_vect(r_vecteur);
 // Affiche un point
 void r_afficher_point(r_point);
 
+// Determine si deux points sont egaux
+bool r_points_egaux(r_point, r_point);
+
+// Determine si deux rectangles sont egaux
+bool r_t_egaux(rectangle_t, rectangle_t);
+
+// Determine si deux rectangles sont egaux
+bool r_rect_egaux(r_rect, r_rect);
+
 #endif

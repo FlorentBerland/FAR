@@ -31,8 +31,8 @@ void* _ctrl_loop_vitesse(void* args)
 		// Trouver un truc pour mesurer la vitesse de chaque roue
 
 		// Pourquoi pas ça :
-		_ctrl_vit_gauche = _ctrl_vit_gopigauche / (float)20;
-		_ctrl_vit_droite = _ctrl_vit_gopidroite / (float)20;
+		_ctrl_vit_gauche = _ctrl_calcul_vitesse(_ctrl_vit_gopigauche);
+		_ctrl_vit_droite = _ctrl_calcul_vitesse(_ctrl_vit_gopidroite);
 
 		// Et vite parce que c'est indispensable !!!
 		// C'est bon c'est fait juste au-dessus
@@ -59,19 +59,20 @@ void* _ctrl_loop(void* args)
 		double distance = _ctrl_dist_objectif();
 
 		printf("\t\torientation du robot : %f\n\t\tangle robot-objectif : %f\n\t\tdistance robot-objectif : %f\n", ctrl_robot.angle, angle, distance);
+		printf("\t\t\e[0;35mvitesse : %f\n\t\tvitesse de rotation : %f\n\e[0m", _ctrl_vitesse(), _ctrl_vit_rot());
 
 		if(distance>10)
 		{
-			if(angle>.1 || angle<-.1)
+			if(angle>.3 || angle<-.3)
 			{
 				_ctrl_virage(angle);
 			}
 			else
 			{
-				_ctrl_vit_gopigauche = 200;
-				_ctrl_vit_gopidroite = 200;
-				motor1(1, _ctrl_vit_gopigauche);
-				motor2(1, _ctrl_vit_gopidroite);
+				_ctrl_vit_gopigauche = 100;
+				_ctrl_vit_gopidroite = 100;
+				motor2(1, _ctrl_vit_gopigauche);
+				motor1(1, _ctrl_vit_gopidroite);
 			}
 		}
 		else
@@ -79,6 +80,7 @@ void* _ctrl_loop(void* args)
 			_ctrl_vit_gopigauche = 0;
 			_ctrl_vit_gopidroite = 0;
 			stop();
+			_ctrl_nouvel_objectif();
 			printf("\t\t\e[0;36mObjectif atteint !\e[0m\n");
 		}
 /*
@@ -232,24 +234,54 @@ void _ctrl_virage(double angle)
 	int vitesse = (_ctrl_vit_gopigauche+_ctrl_vit_gopidroite)/2;
 	if(angle>0)
 	{
-		_ctrl_vit_gopigauche = vitesse+10;
-		_ctrl_vit_gopidroite = vitesse-10;
-		motor1(1, _ctrl_vit_gopigauche);
-		motor2(1, _ctrl_vit_gopidroite);
+		_ctrl_vit_gopigauche = vitesse+50;
+		_ctrl_vit_gopidroite = vitesse-50;
 	}
 	else
 	{
-		_ctrl_vit_gopigauche = vitesse-10;
-		_ctrl_vit_gopidroite = vitesse+10;
-		motor1(1, _ctrl_vit_gopigauche);
-		motor2(1, _ctrl_vit_gopidroite);
+		_ctrl_vit_gopigauche = vitesse-50;
+		_ctrl_vit_gopidroite = vitesse+50;
 	}
+
+	if(_ctrl_vit_gopigauche >= 0)
+		motor2(1, _ctrl_vit_gopigauche);
+	else
+		motor2(0, -_ctrl_vit_gopigauche);
+
+	if(_ctrl_vit_gopidroite >= 0)
+		motor1(1, _ctrl_vit_gopidroite);
+	else
+		motor1(0, -_ctrl_vit_gopidroite);
 }
 
 void _ctrl_arret_virage()
 {
 	_ctrl_vit_gauche = _ctrl_vitesse();
 	_ctrl_vit_droite = _ctrl_vit_gauche;
-	motor1(1, _ctrl_vit_gauche);
-	motor2(1, _ctrl_vit_droite);
+	motor2(1, _ctrl_vit_gauche);
+	motor1(1, _ctrl_vit_droite);
+}
+
+float _ctrl_calcul_vitesse(int val)
+{
+	if(val >= 0)
+		return MAX(val-15, 0) / (float)10;
+	else
+		return MIN(val+15, 0) / (float)10;
+}
+
+void _ctrl_nouvel_objectif()
+{
+	r_rect obj_atteint = _ctrl_objectif_suivant();
+	l_supprimer(_ctrl_objectifs, 0);
+	if(r_rect_egaux(obj_atteint, ctrl_distributeur))
+	{
+		printf("\t\e[0;35mNouvel objectif : But\e[0m\n");
+		l_inserer(_ctrl_objectifs, 0, &ctrl_but);
+	}
+	else
+	{
+		printf("\t\e[0;35mNouvel objectif : Distributeur\e[0m\n");
+		l_inserer(_ctrl_objectifs, 0, &ctrl_distributeur);
+	}
 }

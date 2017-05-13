@@ -194,3 +194,18 @@ void r_afficher_point(r_point p)
 {
 	r_afficher_vect((r_vecteur)p);
 }
+
+bool r_points_egaux(r_point p1, r_point p2)
+{
+	return p1.x==p2.x && p1.y==p2.y;
+}
+
+bool r_t_egaux(rectangle_t r1, rectangle_t r2)
+{
+	return r_points_egaux(r1.centre, r2.centre) && r1.l==r2.l && r1.h==r2.h;
+}
+
+bool r_rect_egaux(r_rect r1, r_rect r2)
+{
+	return r_t_egaux(r1.rec, r2.rec) && r1.angle==r2.angle;
+}
