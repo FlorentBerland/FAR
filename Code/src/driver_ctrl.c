@@ -69,8 +69,8 @@ void* _ctrl_loop(void* args)
 			}
 			else
 			{
-				_ctrl_vit_gopigauche = 100;
-				_ctrl_vit_gopidroite = 100;
+				_ctrl_vit_gopigauche = 150;
+				_ctrl_vit_gopidroite = 150;
 				motor2(1, _ctrl_vit_gopigauche);
 				motor1(1, _ctrl_vit_gopidroite);
 			}
@@ -109,7 +109,7 @@ double _ctrl_vit_rot()
 	float cir = r_module(_ctrl_CIR());
 	if(cir < .01)
 	{
-		return atan2(_ctrl_vit_gauche, ESPACEMENT_ROUES/2);
+		return atan2(_ctrl_vit_gauche, ESPACEMENT_ROUES);
 	}
 	else
 	{
@@ -234,13 +234,13 @@ void _ctrl_virage(double angle)
 	int vitesse = (_ctrl_vit_gopigauche+_ctrl_vit_gopidroite)/2;
 	if(angle>0)
 	{
-		_ctrl_vit_gopigauche = vitesse+50;
-		_ctrl_vit_gopidroite = vitesse-50;
+		_ctrl_vit_gopigauche = vitesse+100;
+		_ctrl_vit_gopidroite = vitesse-100;
 	}
 	else
 	{
-		_ctrl_vit_gopigauche = vitesse-50;
-		_ctrl_vit_gopidroite = vitesse+50;
+		_ctrl_vit_gopigauche = vitesse-100;
+		_ctrl_vit_gopidroite = vitesse+100;
 	}
 
 	if(_ctrl_vit_gopigauche >= 0)
@@ -265,9 +265,9 @@ void _ctrl_arret_virage()
 float _ctrl_calcul_vitesse(int val)
 {
 	if(val >= 0)
-		return MAX(val-15, 0) / (float)10;
+		return MAX(val-15, 0) / (float)20;
 	else
-		return MIN(val+15, 0) / (float)10;
+		return MIN(val+15, 0) / (float)20;
 }
 
 void _ctrl_nouvel_objectif()
