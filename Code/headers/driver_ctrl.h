@@ -3,7 +3,7 @@
 
 #define VITESSE_MIN 10 // Vitesse en dessous de laquelle le robot
 // est considere immobile
-#define RAPPORT_VITESSES_MIN .1 // Rapport de vitesse entre les
+#define RAPPORT_VITESSES_MIN .05 // Rapport de vitesse entre les
 // deux roues pour considerer que le robot tourne
 #define CTRL_INTERVALLE_ANALYSE 100 // Intervalle entre deux analyses en ms
 #define ESPACEMENT_ROUES 10 // Ecart entre les roues

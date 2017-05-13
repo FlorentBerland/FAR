@@ -49,7 +49,6 @@ void* _ctrl_loop_vitesse(void* args)
 
 void* _ctrl_loop(void* args)
 {
-	init();
 	while(_ctrl_continuer)
 	{
 		printf("\t\e[0;34m%d-ieme calcul de trajectoire : \e[0m\n", _ctrl_horloge);
@@ -106,7 +105,6 @@ float _ctrl_vitesse()
 
 bool _ctrl_en_mouvement()
 {
-	printf("%f\n", _ctrl_vitesse());
 	return _ctrl_vitesse() >= VITESSE_MIN;
 }
 
@@ -122,6 +120,7 @@ bool _ctrl_en_virage()
 
 r_vecteur _ctrl_CIR()
 {
+	printf("%d\n", _ctrl_vit_gauche-_ctrl_vit_droite);
 	return (r_vecteur){ ESPACEMENT_ROUES*_ctrl_vit_droite/
 	(_ctrl_vit_gauche-_ctrl_vit_droite) +
 	ESPACEMENT_ROUES/2, DEPORT_ROUES };
@@ -148,6 +147,7 @@ r_rect ctrl_anticipation(int ticks)
 	if(!_ctrl_en_mouvement())
 	{ // Cas immobile
 		printf("\t\t\e[0;37mJe suis immobile !\e[0m\n");
+		ctrl_robot.angle += _ctrl_vit_rot();
 		return ctrl_robot;
 	}
 	else if(!_ctrl_en_virage())
@@ -177,7 +177,15 @@ double _ctrl_dist_objectif()
 
 double _ctrl_vit_rot()
 {
-	return _ctrl_vitesse()/r_module(_ctrl_CIR());
+	float cir = r_module(_ctrl_CIR());
+	if(cir < .01)
+	{
+		return atan2(_ctrl_vit_gauche, ESPACEMENT_ROUES/2);
+	}
+	else
+	{
+		return _ctrl_vitesse()/r_module(_ctrl_CIR());
+	}
 }
 
 int _ctrl_temps_obj_dist()

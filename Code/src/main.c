@@ -25,7 +25,7 @@ void tester_serveur_position()
 
 int main(int argc, char **argv)
 {
-	init();	
+	//init();	
 
 	ctrl_robot = REC_ORIGINE;
 	ctrl_distributeur = (r_rect){ 100, 100, 10, 10, 0 };
