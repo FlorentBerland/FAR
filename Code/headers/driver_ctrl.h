@@ -34,7 +34,7 @@ bool _ctrl_continuer; // Continuer le pilotage ou terminer les threads
 float _ctrl_vit_gauche; // Vitesse de la roue gauche
 float _ctrl_vit_droite; // Vitesse de la roue droite
 
-// Vitesses donnees a chaque roues au driver du robot
+// Vitesses donnees a chaque roues au driver du robot (entre 0 et 255)
 int _ctrl_vit_gopigauche;
 int _ctrl_vit_gopidroite;
 

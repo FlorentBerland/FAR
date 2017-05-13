@@ -14,26 +14,20 @@
 #define pin_capt 11
 
 int main(int argc, char **argv)
-{	
+{	/*
 	while(true)
 	{
 		ctrl_robot.rec.centre.x = PositionX();
 		ctrl_robot.rec.centre.y = PositionY();
-		printf("Position du robot : ")		
+		printf("Position du robot : ");
 		r_afficher_point(ctrl_robot.rec.centre);
 		printf("\n");
 		sleep(1);
-	}
+	}*/
 
-/*
+
 	init();	
 
-	fwd();
-	pi_sleep(5000);
-	stop();
-*/
-
-/*
 	ctrl_robot = REC_ORIGINE;
 	ctrl_distributeur = (r_rect){ 0, 100, 10, 10, 0 };
 
@@ -46,5 +40,6 @@ int main(int argc, char **argv)
 		printf("\e[1;31m%d secondes ecoulees\e[0m\n", i);
 	}
 
-	ctrl_arret();*/
+	ctrl_arret();
+	stop();
 }

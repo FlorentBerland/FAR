@@ -13,7 +13,7 @@ EXEC=$(bin_dir)$(name)
 
 all: $(EXEC)
 
-$(bin_dir)$(name): $(obj_dir)liste.o $(obj_dir)main.o $(obj_dir)tablach.o $(obj_dir)driver_cptr.o $(obj_dir)driver_ctrl.o $(obj_dir)gopigo.o $(obj_dir)rectangle.o #$(obj_dir)communication.o $(obj_dir)com_interface.o $(obj_dir)positionnement.o
+$(bin_dir)$(name): $(obj_dir)liste.o $(obj_dir)main.o $(obj_dir)tablach.o $(obj_dir)driver_cptr.o $(obj_dir)driver_ctrl.o $(obj_dir)gopigo.o $(obj_dir)rectangle.o $(obj_dir)positionnement.o #$(obj_dir)communication.o $(obj_dir)com_interface.o
 	$(CC) -o $@ $^ $(CFLAGS) -I $(headers_dir)
 
 $(obj_dir)%.o: $(src_dir)%.c

@@ -30,6 +30,8 @@ void* _ctrl_loop_vitesse(void* args)
 		//printf("\t\t\e[0;32m%d-ieme analyse de vitesse\e[0m\n", _ctrl_horloge_vitesse);
 		// Trouver un truc pour mesurer la vitesse de chaque roue
 
+		_ctrl_vit_gauche = (float)_ctrl_vit_gopigauche / 20;
+		_ctrl_vit_droite = (float)_ctrl_vit_gopidroite / 20;
 
 		// Et vite parce que c'est indispensable !!!
 		_ctrl_horloge_vitesse++;
@@ -47,7 +49,7 @@ void* _ctrl_loop(void* args)
 		printf("\t\e[0;34m%d-ieme calcul de trajectoire : \e[0m\n", _ctrl_horloge);
 		// Faire le (sale) boulot
 
-		//ctrl_robot = ctrl_anticipation(1);
+		ctrl_robot = ctrl_anticipation(1);
 
 		double angle = _ctrl_angle_objectif();
 		double distance = _ctrl_dist_objectif();
@@ -56,12 +58,17 @@ void* _ctrl_loop(void* args)
 
 		if(distance>10)
 		{
-			fwd();
-			printf("\t\tJe suis passe par la\n");
+			_ctrl_vit_gopigauche = 200;
+			_ctrl_vit_gopidroite = 200;
+			motor1(1, _ctrl_vit_gopigauche);
+			motor2(1, _ctrl_vit_gopidroite);
 		}
 		else
 		{
+			_ctrl_vit_gopigauche = 0;
+			_ctrl_vit_gopidroite = 0;
 			stop();
+			printf("\t\t\e[0;36mObjectif atteint !\e[0m\n");
 		}
 /*
 		if(angle>.1 || angle<-.1)
@@ -126,14 +133,17 @@ r_rect ctrl_anticipation(int ticks)
 {
 	if(!_ctrl_en_mouvement())
 	{ // Cas immobile
+		printf("\t\t\e[0;37mJe suis immobile !\e[0m\n");
 		return ctrl_robot;
 	}
 	else if(!_ctrl_en_virage())
 	{ // En ligne droite
+		printf("\t\t\e[0;37mJe suis en ligne droite !\e[0m\n");
 		return r_translation_rel(ctrl_robot, (r_vecteur){ 0, _ctrl_vitesse()*ticks });
 	}
 	else
 	{ // En virage
+		printf("\t\t\e[0;37mJe suis en virage !\e[0m\n");
 		return r_rotation_rel(ctrl_robot, _ctrl_CIR(), _ctrl_vitesse()*ticks/_ctrl_CIR().x);
 	}
 }
@@ -205,6 +215,6 @@ void _ctrl_arret_virage()
 	int vitesse = (_ctrl_vit_gopigauche+_ctrl_vit_gopidroite)/2;
 	motor1(1, vitesse);
 	motor2(1, vitesse);
-	_ctrl_vit_gauche = vitesse/100;
+	_ctrl_vit_gauche = vitesse/20;
 	_ctrl_vit_droite = _ctrl_vit_gauche;
 }
