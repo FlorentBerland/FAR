@@ -30,10 +30,16 @@ void* _ctrl_loop_vitesse(void* args)
 		//printf("\t\t\e[0;32m%d-ieme analyse de vitesse\e[0m\n", _ctrl_horloge_vitesse);
 		// Trouver un truc pour mesurer la vitesse de chaque roue
 
-		_ctrl_vit_gauche = (float)_ctrl_vit_gopigauche / 20;
-		_ctrl_vit_droite = (float)_ctrl_vit_gopidroite / 20;
+		// Pourquoi pas ça :
+		_ctrl_vit_gauche = _ctrl_vit_gopigauche / (float)20;
+		_ctrl_vit_droite = _ctrl_vit_gopidroite / (float)20;
 
 		// Et vite parce que c'est indispensable !!!
+		// C'est bon c'est fait juste au-dessus
+		// Mais c'est pas précis du tout !
+		// Pas grave, il faut au moins pouvoir tester la vitesse, c'est mieux que rien
+		// Faut que j'arrête de dialoguer tout seul dans les commentaires c'est ridicule
+		// ...
 		_ctrl_horloge_vitesse++;
 
 		usleep(CTRL_INTERVALLE_ANALYSE * 1000);
@@ -47,21 +53,28 @@ void* _ctrl_loop(void* args)
 	while(_ctrl_continuer)
 	{
 		printf("\t\e[0;34m%d-ieme calcul de trajectoire : \e[0m\n", _ctrl_horloge);
-		// Faire le (sale) boulot
 
 		ctrl_robot = ctrl_anticipation(1);
 
 		double angle = _ctrl_angle_objectif();
 		double distance = _ctrl_dist_objectif();
 
-		printf("\t\tangle : %f\n\t\tdistance : %f\n", angle, distance);
+		printf("\t\tangle du robot : %f\n\t\tangle : %f\n\t\tdistance : %f\n", ctrl_robot.angle, angle, distance);
 
 		if(distance>10)
 		{
-			_ctrl_vit_gopigauche = 200;
-			_ctrl_vit_gopidroite = 200;
-			motor1(1, _ctrl_vit_gopigauche);
-			motor2(1, _ctrl_vit_gopidroite);
+			if(angle>.1 || angle<-.1)
+			{
+				_ctrl_virage(angle);
+			}
+			else
+			{
+				_ctrl_arret_virage();
+				_ctrl_vit_gopigauche = 200;
+				_ctrl_vit_gopidroite = 200;
+				motor1(1, _ctrl_vit_gopigauche);
+				motor2(1, _ctrl_vit_gopidroite);
+			}
 		}
 		else
 		{
@@ -93,6 +106,7 @@ float _ctrl_vitesse()
 
 bool _ctrl_en_mouvement()
 {
+	printf("%f\n", _ctrl_vitesse());
 	return _ctrl_vitesse() >= VITESSE_MIN;
 }
 
@@ -196,17 +210,17 @@ void _ctrl_virage(double angle)
 	int vitesse = (_ctrl_vit_gopigauche+_ctrl_vit_gopidroite)/2;
 	if(angle>0)
 	{
-		motor1(1, vitesse+10);
-		motor2(1, vitesse-10);
-		_ctrl_vit_gauche = (vitesse+10)/100;
-		_ctrl_vit_droite = (vitesse-10)/100;
+		_ctrl_vit_gopigauche = vitesse+10;
+		_ctrl_vit_gopidroite = vitesse-10;
+		motor1(1, _ctrl_vit_gopigauche);
+		motor2(1, _ctrl_vit_gopidroite);
 	}
 	else
 	{
-		motor1(1, vitesse-10);
-		motor2(1, vitesse+10);
-		_ctrl_vit_gauche = (vitesse-10)/100;
-		_ctrl_vit_droite = (vitesse+10)/100;
+		_ctrl_vit_gopigauche = vitesse-10;
+		_ctrl_vit_gopidroite = vitesse+10;
+		motor1(1, _ctrl_vit_gopigauche);
+		motor2(1, _ctrl_vit_gopidroite);
 	}
 }
 
@@ -215,6 +229,6 @@ void _ctrl_arret_virage()
 	int vitesse = (_ctrl_vit_gopigauche+_ctrl_vit_gopidroite)/2;
 	motor1(1, vitesse);
 	motor2(1, vitesse);
-	_ctrl_vit_gauche = vitesse/20;
-	_ctrl_vit_droite = _ctrl_vit_gauche;
+	_ctrl_vit_gauche = vitesse;
+	_ctrl_vit_droite = vitesse;
 }

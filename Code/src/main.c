@@ -7,29 +7,28 @@
 #include "../headers/rectangle.h"
 #include "../headers/gopigo.h"
 #include "../headers/positionnement.h"
-//#include "../headers/com_interface.h"
+//#include "../headers/com_interface.h" // Non fonctionnel et inutile pour le moment
 
 //Test de l'infrarouge
 #define pin_led 1
 #define pin_capt 11
 
+void tester_serveur_position()
+{
+	ctrl_robot.rec.centre.x = PositionX();
+	ctrl_robot.rec.centre.y = PositionY();
+	printf("Position du robot : ");
+	r_afficher_point(ctrl_robot.rec.centre);
+	printf("\n");
+	sleep(1);
+}
+
 int main(int argc, char **argv)
-{	/*
-	while(true)
-	{
-		ctrl_robot.rec.centre.x = PositionX();
-		ctrl_robot.rec.centre.y = PositionY();
-		printf("Position du robot : ");
-		r_afficher_point(ctrl_robot.rec.centre);
-		printf("\n");
-		sleep(1);
-	}*/
-
-
+{
 	init();	
 
 	ctrl_robot = REC_ORIGINE;
-	ctrl_distributeur = (r_rect){ 0, 100, 10, 10, 0 };
+	ctrl_distributeur = (r_rect){ 100, 100, 10, 10, 0 };
 
 	ctrl_init();
 	ctrl_demarrer();
