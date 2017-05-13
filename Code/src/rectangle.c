@@ -179,3 +179,18 @@ r_vecteur r_creer_vecteur(r_point p1, r_point p2)
 {
 	return (r_vecteur){ p2.x-p1.x, p2.y-p1.y };
 }
+
+void r_afficher_rect(r_rect r)
+{
+	printf("{ x:%f, y:%f, l:%f, h:%f, a:%f }", r.rec.centre.x, r.rec.centre.y, r.rec.l, r.rec.h, r.angle);
+}
+
+void r_afficher_vect(r_vecteur v)
+{
+	printf("{ x:%f, y:%f }", v.x, v.y);
+}
+
+void r_afficher_point(r_point p)
+{
+	r_afficher_vect((r_vecteur)p);
+}

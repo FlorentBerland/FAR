@@ -27,7 +27,7 @@ void* _ctrl_loop_vitesse(void* args)
 {
 	while(_ctrl_continuer)
 	{
-		printf("\t\t\e[0;32m%d-ieme analyse de vitesse\e[0m\n", _ctrl_horloge_vitesse);
+		//printf("\t\t\e[0;32m%d-ieme analyse de vitesse\e[0m\n", _ctrl_horloge_vitesse);
 		// Trouver un truc pour mesurer la vitesse de chaque roue
 
 
@@ -41,23 +41,29 @@ void* _ctrl_loop_vitesse(void* args)
 
 void* _ctrl_loop(void* args)
 {
+	init();
 	while(_ctrl_continuer)
 	{
-		//printf("\t\e[0;34m%d-ieme calcul de trajectoire\e[0m\n", _ctrl_horloge);
+		printf("\t\e[0;34m%d-ieme calcul de trajectoire : \e[0m\n", _ctrl_horloge);
 		// Faire le (sale) boulot
 
-		ctrl_robot = ctrl_anticipation(1);
+		//ctrl_robot = ctrl_anticipation(1);
 
 		double angle = _ctrl_angle_objectif();
 		double distance = _ctrl_dist_objectif();
+
+		printf("\t\tangle : %f\n\t\tdistance : %f\n", angle, distance);
+
 		if(distance>10)
 		{
 			fwd();
+			printf("\t\tJe suis passe par la\n");
 		}
 		else
 		{
 			stop();
 		}
+/*
 		if(angle>.1 || angle<-.1)
 		{
 			_ctrl_virage(angle);
@@ -66,7 +72,7 @@ void* _ctrl_loop(void* args)
 		{
 			_ctrl_arret_virage();
 		}
-
+*/
 		_ctrl_horloge++;
 
 		usleep(CTRL_INTERVALLE * 1000);

@@ -105,4 +105,13 @@ float r_degres(float);
 // Retourne le vecteur entre p1 et p2
 r_vecteur r_creer_vecteur(r_point, r_point);
 
+// Affiche un rectangle
+void r_afficher_rect(r_rect);
+
+// Affiche un vecteur
+void r_afficher_vect(r_vecteur);
+
+// Affiche un point
+void r_afficher_point(r_point);
+
 #endif
