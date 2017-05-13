@@ -9,7 +9,7 @@
 #define RAPPORT_VITESSES_MIN .05 // Rapport de vitesse entre les
 // deux roues pour considerer que le robot tourne
 #define CTRL_INTERVALLE_ANALYSE 250 // Intervalle entre deux analyses en ms
-#define ESPACEMENT_ROUES 10 // Ecart entre les roues
+#define ESPACEMENT_ROUES 8 // Ecart entre les roues
 #define DEPORT_ROUES 3.5 // Distance entre le centre et l'axe des roues
 #define CTRL_INTERVALLE 500 // Pas du moteur physique en ms
 #define CTRL_TEMPS_INFINI -1 // Pas de duree calculable

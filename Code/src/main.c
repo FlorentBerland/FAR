@@ -65,7 +65,7 @@ int lire_positions()
 
 		fgets(buffer, bs, fichier); // VB:
 		fgets(buffer, bs, fichier); // cases Y
-		ctrl_but = (r_rect){ 100, centre_case(atoi(buffer)), 200, 25, 0 };
+		ctrl_but = (r_rect){ ctrl_distributeur.rec.centre.x, centre_case(atoi(buffer)), 25, 25, 0 };
 
 		fclose(fichier);
 		return 0;
@@ -88,11 +88,6 @@ void tester_serveur_position()
 
 int main(int argc, char **argv)
 {
-	ctrl_robot = (r_rect){ 12.5, 12.5, 10, 20, 0 };
-	ctrl_distributeur = (r_rect){ 12.5, 5*25+12.5, 25, 25, 0 };
-	ctrl_but = (r_rect){ 100, 11*25+12.5, 200, 25, 0 };
-	ctrl_terrain = (r_rect){ 100, 150, 200, 300, 0 };
-
 	if(lire_positions())
 	{
 		printf("Erreur d'ouverture du fichier de zones\n");
@@ -104,8 +99,9 @@ int main(int argc, char **argv)
 		printf("Erreur d'initialisation de gopigo\n");
 		//return 1;
 	}
-	
+
 	stop();
+	set_speed(200);
 
 	if(ctrl_init())
 	{
@@ -113,7 +109,7 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
-	int i=8; for(;i>=1;i--)
+	int i=10; for(;i>=1;i--)
 	{
 		printf("Demarrage dans %d secondes\n", i);
 		sleep(1);
