@@ -272,7 +272,7 @@ int digitalWrite(int pin, int value)
 // Setting Up Pin mode on Arduino
 int pinMode(int pin, char * mode)
 {
-    if(strcmp(mode,"ÏNPUT")==0)
+    if(strcmp(mode,"INPUT")==0)
         return write_block(pin_mode_cmd,pin,0,0);
     else if(strcmp(mode,"OUTPUT")==0)
         return write_block(pin_mode_cmd,pin,1,0);

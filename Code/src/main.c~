@@ -6,8 +6,8 @@
 #include "../headers/driver_cptr.h"
 #include "../headers/rectangle.h"
 
-#define pin_led 8
-#define pin_capt 9
+#define pin_led 8;
+#define pin_capt 9;
 
 void detecter_noir(int val, int horloge)
 {

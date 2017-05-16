@@ -293,16 +293,15 @@ void _cptr_appel(int it, void* l_val, void* args)
 void _cptr_maj_capt(int it, void* l_val, void* args)
 {
 	_cptr_assoc* capt = (_cptr_assoc*)l_val;
-	pinMode(capt->capteur.pin, "INPUT");
 	if(capt->capteur.type == LOGIQUE)
 	{
 		capt->valeurs.actuelle = capt->valeurs.precedente;
-		capt->valeurs.actuelle = digitalRead(capt->capteur.pin);
+		capt->valeurs.actuelle = digitalRead(8);
 	}
 	else
 	{
 		capt->valeurs.actuelle = capt->valeurs.precedente;
-		capt->valeurs.actuelle = digitalRead(capt->capteur.pin);
+		capt->valeurs.actuelle = 0; // Remplacer par analogread()
 	}
 }
 
