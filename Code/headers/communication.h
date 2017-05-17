@@ -1,7 +1,7 @@
 #ifndef DEF_COMMUNICATION
 #define DEF_COMMUNICATION
 
-#include <stdbool>
+#include <stdbool.h>
 #include <stdio.h>
 #include <pthread.h>
 #include <string.h>

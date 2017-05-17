@@ -27,7 +27,7 @@ void* _ctrl_loop_vitesse(void* args)
 {
 	while(_ctrl_continuer)
 	{
-		printf("Vitesse : %d\n", _ctrl_horloge_vitesse);
+		printf("%d-ieme analyse de vitesse\n", _ctrl_horloge_vitesse);
 		// Trouver un truc pour mesurer la vitesse de chaque roue
 
 
@@ -43,7 +43,7 @@ void* _ctrl_loop(void* args)
 {
 	while(_ctrl_continuer)
 	{
-		printf("Pilote : %d\n", _ctrl_horloge);
+		printf("%d-ieme calcul de trajectoire\n", _ctrl_horloge);
 		// Faire le (sale) boulot
 
 

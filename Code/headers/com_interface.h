@@ -20,7 +20,7 @@ typedef union {	char octets[CINT_TAILLE_TYPE_INTEGRAL];
 				// 1 octet
 				char c;
 				bool b;
-}_cint_cast_donnes;
+}_cint_cast_donnees;
 
 typedef enum {	POSITION,
 				TEXTE,
@@ -52,8 +52,8 @@ char _cint_id_robot; // Identifiant du robot
 			int : port
 			void(*)(...) : fonctions inutiles pour bourrer
 */
-int cint_init(char, int, void(*)(double, double, double),
-	void(*)(char, char *), void(*)(char, int));
+int cint_init(char, int, void(*)(char, double, double, double),
+	void(*)(char, char, char *), void(*)(char, char, int));
 
 // Demarre l'interface (lance la reception)
 int cint_demarrer();
@@ -79,5 +79,8 @@ int cint_envoyer_m(Liste*, cint_type_transfert, ...);
 
 // Traduit les octets recus en donnees exploitables
 void _cint_traiter_reception(char*);
+
+// Copie c2 dans c1 avec une taille de tableau
+void _cint_copier_tableau(char*, char*, int);
 
 #endif
