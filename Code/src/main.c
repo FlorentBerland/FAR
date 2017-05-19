@@ -7,10 +7,11 @@
 #include "../headers/rectangle.h"
 //#include "../headers/com_interface.h"
 
-/* Test de l'infrarouge
-#define pin_led 1
-#define pin_capt 11
+//Test de l'infrarouge
+define pin_led 1
+define pin_capt 11
 
+/*
 void detecter_noir(int val, int horloge)
 {
 	stop();
@@ -20,16 +21,16 @@ void detecter_noir(int val, int horloge)
 int main()
 {	
 
-	ctrl_init();
-	ctrl_demarrer();
-	int i=1;
-	for(;i<=10;i++)
+	pinMode(pin_led, "OUTPUT");
+	analogWrite(pin_led, 255);
+	pinMode(pin_capt, "INPUT");
+
+	while(true)
 	{
+		printf("%d\n", digitalRead(pin_capt));
 		sleep(1);
-		printf("\e[0;31m%d secondes ecoulees\e[0m\n", i);
 	}
-	
-	printf("code d'arret : %d\n", ctrl_arret());
+
 	return 0;
 
 	/* Test de l'infrarouge
