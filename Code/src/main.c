@@ -20,18 +20,12 @@ void detecter_noir(int val, int horloge)
 
 int main()
 {	
-
-	pinMode(pin_led, "OUTPUT");
-	analogWrite(pin_led, 255);
-	pinMode(pin_capt, "INPUT");
-
-	while(true)
-	{
-		printf("%d\n", digitalRead(pin_capt));
-		sleep(1);
-	}
-
-	return 0;
+	ctrl_robot = REC_ORIGINE;
+	ctrl_distributeur = (r_rect){100,100,20,20,0};
+	ctrl_init();
+	ctrl_demarrer();
+	sleep(10);
+	return ctrl_arret();
 
 	/* Test de l'infrarouge
 	// pas fait parce que le robot a des problemes d'i2c
