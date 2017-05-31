@@ -25,7 +25,7 @@ void proc_exit(int sig) {
 }
 
 int main(void) {
-  FILE *para = fopen("cleballon.txt","r");
+  FILE *para = fopen("bin/data/idballon.txt","r");
   if(para != NULL){
     fgets(idBallon, sizeof idBallon, para);
   }
