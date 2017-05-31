@@ -27,7 +27,7 @@ float PositionX(){
 
 float PositionY(){
   // Recherche dans le fichier position les dernieres positions données par le serveur de position
-  FILE *para = fopen("position.txt","r");
+  FILE *para = fopen("./data/position.txt","r");
 
   if(para != NULL){
     char ligne[7];
