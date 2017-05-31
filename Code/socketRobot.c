@@ -1,4 +1,5 @@
 // tcp_serveur.c
+// VALIDATEUR DE BUT
 
 #include <stdio.h>
 #include <string.h>
@@ -16,14 +17,19 @@
 
 char adrRobot [15] = "162.38.111.103";
 char idBallon [15] = "1";
-char coulRobot[15] = "rouge" ;// ou "bleu";
+char coulRobot[15] = "rouge";// ou "bleu";
 int penalty = 0;
 
 void proc_exit(int sig) {
-  wait();
+  sleep(2);
 }
 
 int main(void) {
+  FILE *para = fopen("cleballon.txt","r");
+  if(para != NULL){
+    fgets(idBallon, sizeof idBallon, para);
+  }
+  fclose(para);
 
   /* Pour eviter les zombies */
   signal(SIGCHLD, proc_exit);
@@ -32,7 +38,7 @@ int main(void) {
   struct sockaddr_in sin;
   int sock;
   socklen_t recsize = sizeof(sin);
-    
+
   /* Socket et contexte d'adressage du client */
   struct sockaddr_in csin;
   int csock;
@@ -40,7 +46,7 @@ int main(void) {
 
   /* Pour forker le moment venu */
   pid_t pid;
- 
+
   /* Creation d'une socket */
   sock = socket(AF_INET, SOCK_STREAM, 0);
 
@@ -73,7 +79,7 @@ int main(void) {
       send(csock, buffer,50 , 0);
 	    printf("Envoi de %s\n", buffer);
 
-    
+
         /* Reception de donnees du client */
         int res = recv(csock, buffer, 32, 0);
         if (res == 0)
@@ -109,7 +115,7 @@ int main(void) {
           printf("Suite à une faute de votre part, vous avez une pénalité de %i minutes. \n", penalty);
         }
 
-    
+
 
       /* Fermeture de la socket dans les deux sens */
       shutdown(csock, 2);
