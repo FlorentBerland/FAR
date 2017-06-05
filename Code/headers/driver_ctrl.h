@@ -1,7 +1,10 @@
 #ifndef DRIVER_CONTROL
 #define DRIVER_CONTROL
 
-#define VITESSE_MIN 10 // Vitesse en dessous de laquelle le robot
+// L'unite de distance est le centimetre
+// La vitesse est en unites par periode d'horloge
+
+#define VITESSE_MIN .1 // Vitesse en dessous de laquelle le robot
 // est considere immobile
 #define RAPPORT_VITESSES_MIN .05 // Rapport de vitesse entre les
 // deux roues pour considerer que le robot tourne
@@ -56,7 +59,10 @@ void* _ctrl_loop(void*);
 // Vitesse du robot (unites par ticks)
 float _ctrl_vitesse();
 
-// Determine a partir des vitesses des roues si le robot est en mouvement
+// Vitesse de rotation en radians/tick
+double _ctrl_vit_rot();
+
+// Determine a partir des vitesses des roues si le robot est en mouvement rectiligne
 bool _ctrl_en_mouvement();
 
 // Determine a partir des vitesses des roues si le robot est en virage
@@ -85,9 +91,6 @@ double _ctrl_angle_objectif();
 
 // Distance entre le robot et l'objectif suivant
 double _ctrl_dist_objectif();
-
-// Vitesse de rotation en radians/tick
-double _ctrl_vit_rot();
 
 // Temps en ticks avant d'atteindre l'objectif
 int _ctrl_temps_obj_dist();

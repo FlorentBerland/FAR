@@ -13,7 +13,7 @@
 #include <stdio.h>
 
 #define ORIGINE (r_point){ 0, 0 }
-#define VECTEUR_NULL (r_vecteur){ 0, 0 }
+#define VECTEUR_NUL (r_vecteur){ 0, 0 }
 #define REC_ORIGINE (r_rect){ 0, 0, 0, 0, 0 }
 
 #define PI 3.14159265359

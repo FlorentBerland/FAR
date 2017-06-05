@@ -51,14 +51,14 @@ void* _ctrl_loop(void* args)
 {
 	while(_ctrl_continuer)
 	{
-		printf("\t\e[0;34m%d-ieme calcul de trajectoire : \e[0m\n", _ctrl_horloge);
+		printf("\t\e[0;34m%d-ieme calcul de trajectoire : \e[0m\n", _ctrl_horloge + 1);
 
 		ctrl_robot = ctrl_anticipation(1);
 
 		double angle = _ctrl_angle_objectif();
 		double distance = _ctrl_dist_objectif();
 
-		printf("\t\tangle du robot : %f\n\t\tangle : %f\n\t\tdistance : %f\n", ctrl_robot.angle, angle, distance);
+		printf("\t\torientation du robot : %f\n\t\tangle robot-objectif : %f\n\t\tdistance robot-objectif : %f\n", ctrl_robot.angle, angle, distance);
 
 		if(distance>10)
 		{
@@ -68,7 +68,6 @@ void* _ctrl_loop(void* args)
 			}
 			else
 			{
-				_ctrl_arret_virage();
 				_ctrl_vit_gopigauche = 200;
 				_ctrl_vit_gopidroite = 200;
 				motor1(1, _ctrl_vit_gopigauche);
@@ -103,6 +102,19 @@ float _ctrl_vitesse()
 	return (_ctrl_vit_gauche+_ctrl_vit_droite)/2;
 }
 
+double _ctrl_vit_rot()
+{
+	float cir = r_module(_ctrl_CIR());
+	if(cir < .01)
+	{
+		return atan2(_ctrl_vit_gauche, ESPACEMENT_ROUES/2);
+	}
+	else
+	{
+		return _ctrl_vitesse()/cir;
+	}
+}
+
 bool _ctrl_en_mouvement()
 {
 	return _ctrl_vitesse() >= VITESSE_MIN;
@@ -112,7 +124,8 @@ bool _ctrl_en_virage()
 {
 	if (!_ctrl_en_mouvement())
 	{
-		return false;
+		// Pas en mouvement rectiligne mais peut être en virage
+		return _ctrl_vit_gauche>VITESSE_MIN || _ctrl_vit_droite>VITESSE_MIN;
 	}
 	float rapport = (_ctrl_vit_droite-_ctrl_vit_gauche)/_ctrl_vitesse();
 	return rapport>=RAPPORT_VITESSES_MIN || rapport<=-RAPPORT_VITESSES_MIN;
@@ -120,10 +133,17 @@ bool _ctrl_en_virage()
 
 r_vecteur _ctrl_CIR()
 {
-	printf("%d\n", _ctrl_vit_gauche-_ctrl_vit_droite);
-	return (r_vecteur){ ESPACEMENT_ROUES*_ctrl_vit_droite/
-	(_ctrl_vit_gauche-_ctrl_vit_droite) +
-	ESPACEMENT_ROUES/2, DEPORT_ROUES };
+	float diff = _ctrl_vit_gauche-_ctrl_vit_droite;
+	if(diff<.01 && diff>-.01)
+	{
+		return VECTEUR_NUL;
+	}
+	else
+	{
+		return (r_vecteur){ ESPACEMENT_ROUES*_ctrl_vit_droite/
+			(_ctrl_vit_gauche-_ctrl_vit_droite) +
+			ESPACEMENT_ROUES/2, 0 };
+	}
 }
 
 r_rect _ctrl_objectif_suivant()
@@ -145,10 +165,17 @@ r_vecteur ctrl_trajectoire_objectif()
 r_rect ctrl_anticipation(int ticks)
 {
 	if(!_ctrl_en_mouvement())
-	{ // Cas immobile
-		printf("\t\t\e[0;37mJe suis immobile !\e[0m\n");
-		ctrl_robot.angle += _ctrl_vit_rot();
-		return ctrl_robot;
+	{ 
+		if(!_ctrl_en_virage())
+		{
+			printf("\t\t\e[0;37mJe suis immobile !\e[0m\n");
+			return ctrl_robot;
+		}
+		else
+		{
+			printf("\t\t\e[0;37mJe tourne sur moi-meme !\e[0m\n");
+			return r_orienter_rel(ctrl_robot, _ctrl_vit_rot());
+		}
 	}
 	else if(!_ctrl_en_virage())
 	{ // En ligne droite
@@ -173,19 +200,6 @@ double _ctrl_dist_objectif()
 {
 	return r_module(r_creer_vecteur(r_centre(ctrl_robot),
 		r_centre(_ctrl_objectif_suivant())));
-}
-
-double _ctrl_vit_rot()
-{
-	float cir = r_module(_ctrl_CIR());
-	if(cir < .01)
-	{
-		return atan2(_ctrl_vit_gauche, ESPACEMENT_ROUES/2);
-	}
-	else
-	{
-		return _ctrl_vitesse()/r_module(_ctrl_CIR());
-	}
 }
 
 int _ctrl_temps_obj_dist()
@@ -234,9 +248,8 @@ void _ctrl_virage(double angle)
 
 void _ctrl_arret_virage()
 {
-	int vitesse = (_ctrl_vit_gopigauche+_ctrl_vit_gopidroite)/2;
-	motor1(1, vitesse);
-	motor2(1, vitesse);
-	_ctrl_vit_gauche = vitesse;
-	_ctrl_vit_droite = vitesse;
+	_ctrl_vit_gauche = _ctrl_vitesse();
+	_ctrl_vit_droite = _ctrl_vit_gauche;
+	motor1(1, _ctrl_vit_gauche);
+	motor2(1, _ctrl_vit_droite);
 }
