@@ -1,6 +1,6 @@
 #FAR
 
-Par : Thais AURARD, Florent BELAND, Mahe Spaenle
+Par : Thais AURARD, Florent BERLAND, Mahe Spaenle
 
 Démarrer le programme :
 	installation :
