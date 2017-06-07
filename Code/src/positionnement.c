@@ -2,7 +2,7 @@
 
 float PositionX(){
   // Recherche dans le fichier position les dernieres positions données par le serveur de position
-  FILE *para = fopen("bin/data/position.txt","r");
+  FILE *para = fopen("bin/data/verifiedPosition.txt","r");
 
   if(para != NULL){
     char ligne[7];
@@ -32,7 +32,7 @@ float PositionY(){
     fclose(para);
 
     char var2[2];
-    if(ligne[3]=='\n'){
+    if(ligne[3]=='_'){
       var2[0]=0;
       var2[1]=ligne[2];
     }
