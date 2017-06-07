@@ -5,30 +5,41 @@
 #include "../headers/driver_ctrl.h"
 #include "../headers/driver_cptr.h"
 #include "../headers/rectangle.h"
+#include "../headers/gopigo.h"
+#include "../headers/positionnement.h"
+//#include "../headers/com_interface.h" // Non fonctionnel et inutile pour le moment
 
-#define pin_led 8;
-#define pin_capt 9;
+//Test de l'infrarouge
+#define pin_led 1
+#define pin_capt 11
 
-void detecter_noir(int val, int horloge)
+void tester_serveur_position()
 {
-	stop();
+	ctrl_robot.rec.centre.x = PositionX();
+	ctrl_robot.rec.centre.y = PositionY();
+	printf("Position du robot : ");
+	r_afficher_point(ctrl_robot.rec.centre);
+	printf("\n");
+	sleep(1);
 }
 
-int main()
-{	
+int main(int argc, char **argv)
+{
 	init();
 
-	pinMode(pin_led, "OUTPUT");
-	digitalWrite(pin_led, true);
+	ctrl_robot = REC_ORIGINE;
+	ctrl_distributeur = (r_rect){ 50, 50, 10, 10, 0 };
+	ctrl_but = (r_rect){ -50, 50, 10, 10, 0};
 
-	cptr_init();
-	cptr_ajbool_dtct_etat(pin_capt, false, &detecter_noir);
-	cptr_demarrer();
+	ctrl_init();
+	ctrl_demarrer();
+	
+	int i; for(i=1;i<=59;i++)
+	{
+		sleep(1);
+		printf("\e[1;31m%d secondes ecoulees\e[0m\n", i);
+	}
 
-
-	fwd();
-	sleep(25);
-	printf("%s\n", "temps ecoule");
+	ctrl_arret();
 	stop();
-	cptr_arret();
 }
