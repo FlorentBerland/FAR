@@ -54,7 +54,7 @@ int main(void) {
       //Transmettre dans position.txt
       char ligne[7] ="";
       strcat(ligne,sX);
-      strcat(ligne,"_");
+      strcat(ligne,"_");// On peut remplacer ces manipulations par des strtok
       strcat(ligne,sY);
       printf("%s_0\n",ligne);
       FILE *para = fopen("../monitoring/dataPosition/verifiedPosition.txt","w");
