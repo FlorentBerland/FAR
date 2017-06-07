@@ -54,9 +54,9 @@ int main(void) {
       //Transmettre dans position.txt
       char ligne[7] ="";
       strcat(ligne,sX);
-      strcat(ligne," ");
+      strcat(ligne,"_");
       strcat(ligne,sY);
-      printf("%s\n",ligne);
+      printf("%s_0\n",ligne);
       FILE *para = fopen("./data/verifiedPosition.txt","w");
       fprintf(para, "%s\n",ligne);
       fclose(para);
