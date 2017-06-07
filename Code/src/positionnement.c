@@ -2,7 +2,7 @@
 
 float PositionX(){
   // Recherche dans le fichier position les dernieres positions données par le serveur de position
-  FILE *para = fopen("bin/data/verifiedPosition.txt","r");
+  FILE *para = fopen("monitoring/dataPosition/verifiedPosition.txt","r");
 
   if(para != NULL){
     char ligne[7];
