@@ -4,7 +4,7 @@ Par : Thais AURARD, Florent BELAND, Mahe Spaenle
 
 Démarrer le programme :
 	installation :
-		wget https://github.com/FlorentBerland/FAR/blob/master/Code/install.sh
+		wget https://raw.githubusercontent.com/FlorentBerland/FAR/master/Code/install.sh
 		chmod u+x install.sh
 		./install.sh (entrer les identifiants github pour configurer le dépôt)
 		cd FAR/Code/
