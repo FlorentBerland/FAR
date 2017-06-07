@@ -2,7 +2,7 @@
 
 int ctrl_init()
 {
-	_ctrl_objectifs = l_creer_args(1, &ctrl_distributeur);
+	_ctrl_objectifs = l_creer_args(2, &ctrl_distributeur, &ctrl_arrivee);
 	_ctrl_horloge_vitesse = 0;
 	_ctrl_horloge = 0;
 	return 0;
@@ -27,7 +27,7 @@ void* _ctrl_loop_vitesse(void* args)
 {
 	while(_ctrl_continuer)
 	{
-		//printf("\t\t\e[0;32m%d-ieme analyse de vitesse\e[0m\n", _ctrl_horloge_vitesse);
+		printf("\t\e[0;32m%d-ieme analyse de vitesse\e[0m\n", _ctrl_horloge_vitesse + 1);
 		// Trouver un truc pour mesurer la vitesse de chaque roue
 
 		// Pourquoi pas ça :
@@ -58,8 +58,8 @@ void* _ctrl_loop(void* args)
 		double angle = _ctrl_angle_objectif();
 		double distance = _ctrl_dist_objectif();
 
-		printf("\t\torientation du robot : %f\n\t\tangle robot-objectif : %f\n\t\tdistance robot-objectif : %f\n", ctrl_robot.angle, angle, distance);
-		printf("\t\t\e[0;35mvitesse : %f\n\t\tvitesse de rotation : %f\n\e[0m", _ctrl_vitesse(), _ctrl_vit_rot());
+		printf("\t\torientation du robot : %f\n\t\tangle robot-objectif : %f\n\t\tdistance robot-objectif : %f\n", r_degres(ctrl_robot.angle), r_degres(angle), distance);
+		printf("\t\t\e[0;35mvitesse : %f\n\t\tvitesse de rotation : %f\n\e[0m", _ctrl_vitesse(), r_degres(_ctrl_vit_rot()));
 
 		if(distance>10)
 		{
@@ -80,8 +80,8 @@ void* _ctrl_loop(void* args)
 			_ctrl_vit_gopigauche = 0;
 			_ctrl_vit_gopidroite = 0;
 			stop();
-			_ctrl_nouvel_objectif();
 			printf("\t\t\e[0;36mObjectif atteint !\e[0m\n");
+			_ctrl_nouvel_objectif();
 		}
 /*
 		if(angle>.1 || angle<-.1)
@@ -276,12 +276,12 @@ void _ctrl_nouvel_objectif()
 	l_supprimer(_ctrl_objectifs, 0);
 	if(r_rect_egaux(obj_atteint, ctrl_distributeur))
 	{
-		printf("\t\e[0;35mNouvel objectif : But\e[0m\n");
+		printf("\t\t\e[0;36mNouvel objectif : But\e[0m\n");
 		l_inserer(_ctrl_objectifs, 0, &ctrl_but);
 	}
 	else
 	{
-		printf("\t\e[0;35mNouvel objectif : Distributeur\e[0m\n");
+		printf("\t\t\e[0;36mNouvel objectif : Distributeur\e[0m\n");
 		l_inserer(_ctrl_objectifs, 0, &ctrl_distributeur);
 	}
 }

@@ -34,7 +34,7 @@ int main(int argc, char **argv)
 	ctrl_init();
 	ctrl_demarrer();
 	
-	int i; for(i=1;i<=10;i++)
+	int i; for(i=1;i<=60;i++)
 	{
 		sleep(1);
 		printf("\e[1;31m%d secondes ecoulees\e[0m\n", i);
