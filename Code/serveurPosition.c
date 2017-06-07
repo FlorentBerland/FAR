@@ -57,7 +57,7 @@ int main(void) {
       strcat(ligne,"_");
       strcat(ligne,sY);
       printf("%s_0\n",ligne);
-      FILE *para = fopen("./data/verifiedPosition.txt","w");
+      FILE *para = fopen("../monitoring/dataPosition/verifiedPosition.txt","w");
       fprintf(para, "%s\n",ligne);
       fclose(para);
   }
