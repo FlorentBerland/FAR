@@ -101,7 +101,7 @@ int main(int argc, char **argv)
 	}
 
 	stop();
-	set_speed(200);
+	set_speed(150);
 
 	if(ctrl_init())
 	{
