@@ -104,7 +104,7 @@ int main(int argc,char *argv[])
     infoApublier[1] = "type_ent=RJ";
     infoApublier[2] = "num=873126661177012";
     char* data="data=";
-    strcat(data,getIP());
+    strcat(data,get_ip());
     infoApublier[3] = data;
     // (attention : strcpy(infoApublier[3],"data=163.11.111.11") 
     //    ne marche pas car pas d'espace memoire alloue encore a infoApublier[3] ) 
