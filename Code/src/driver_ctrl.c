@@ -3,7 +3,6 @@
 int ctrl_init()
 {
 	_ctrl_objectifs = l_creer_args(2, &ctrl_distributeur, &ctrl_arrivee);
-	_ctrl_horloge_vitesse = 0;
 	_ctrl_horloge = 0;
 	return 0;
 }
@@ -31,14 +30,13 @@ void* _ctrl_loop(void* args)
 		printf("\t\e[0;34m%d-ieme calcul de trajectoire : \e[0m\n", _ctrl_horloge + 1);
 
 		_ctrl_calcul_vitesse(&dst1, &dst2);
-
 		ctrl_robot = ctrl_anticipation(1);
 
 		double angle = _ctrl_angle_objectif();
 		double distance = _ctrl_dist_objectif();
 
 		printf("\t\torientation du robot : %f\n\t\tangle robot-objectif : %f\n\t\tdistance robot-objectif : %f\n", r_degres(ctrl_robot.angle), r_degres(angle), distance);
-		printf("\t\t\e[0;35mvitesse : %f\n\t\tvitesse de rotation : %f\n\e[0m", _ctrl_vitesse(), r_degres(_ctrl_vit_rot()));
+		printf("\t\t\e[0;35mvitesse gauche : %f\n\t\tvitesse droite : %f\n\t\tvitesse de rotation : %f\n\e[0m", _ctrl_vit_gauche, _ctrl_vit_droite, r_degres(_ctrl_vit_rot()));
 
 		if(distance>10)
 		{
@@ -59,6 +57,7 @@ void* _ctrl_loop(void* args)
 			_ctrl_vit_gopigauche = 0;
 			_ctrl_vit_gopidroite = 0;
 			stop();
+			sleep(2);
 			printf("\t\t\e[0;36mObjectif atteint !\e[0m\n");
 			_ctrl_nouvel_objectif();
 		}
@@ -80,9 +79,13 @@ double _ctrl_vit_rot()
 	{
 		return atan2(_ctrl_vit_gauche, ESPACEMENT_ROUES);
 	}
-	else
+	else if(cir >= 0)
 	{
 		return _ctrl_vitesse()/cir;
+	}
+	else
+	{
+		return 0;
 	}
 }
 
@@ -136,7 +139,7 @@ r_vecteur ctrl_trajectoire_objectif()
 r_rect ctrl_anticipation(int ticks)
 {
 	if(!_ctrl_en_mouvement())
-	{ 
+	{
 		if(!_ctrl_en_virage())
 		{
 			printf("\t\t\e[0;37mJe suis immobile !\e[0m\n");
@@ -201,26 +204,26 @@ int _ctrl_temps_obj_angle()
 void _ctrl_virage(double angle)
 {
 	int vitesse = (_ctrl_vit_gopigauche+_ctrl_vit_gopidroite)/2;
-	if(angle>0)
+	if(angle<0)
 	{
-		_ctrl_vit_gopigauche = vitesse+100;
-		_ctrl_vit_gopidroite = vitesse-100;
+		_ctrl_vit_gopigauche = vitesse+50;
+		_ctrl_vit_gopidroite = vitesse-50;
 	}
 	else
 	{
-		_ctrl_vit_gopigauche = vitesse-100;
-		_ctrl_vit_gopidroite = vitesse+100;
+		_ctrl_vit_gopigauche = vitesse-50;
+		_ctrl_vit_gopidroite = vitesse+50;
 	}
 
 	if(_ctrl_vit_gopigauche >= 0)
-		motor2(1, _ctrl_vit_gopigauche);
+		motor2(1, MIN(_ctrl_vit_gopigauche,255));
 	else
-		motor2(0, -_ctrl_vit_gopigauche);
+		motor2(0, MIN(-_ctrl_vit_gopigauche,255));
 
 	if(_ctrl_vit_gopidroite >= 0)
-		motor1(1, _ctrl_vit_gopidroite);
+		motor1(1, MIN(_ctrl_vit_gopidroite,255));
 	else
-		motor1(0, -_ctrl_vit_gopidroite);
+		motor1(0, MIN(-_ctrl_vit_gopidroite,255));
 }
 
 void _ctrl_arret_virage()
@@ -233,13 +236,13 @@ void _ctrl_arret_virage()
 
 void _ctrl_calcul_vitesse(int* dst1, int *dst2)
 {
-	int temp1 = enc_read(1);
-	int temp2 = enc_read(2);
+	int temp1 = enc_read(0);
+	int temp2 = enc_read(1);
 
-	_ctrl_vit_droite = temp1 - *dst1;
-	*dst1 = temp;
-	_ctrl_vit_gauche = temp2 - *dst2;
-	*dst2 = temp;
+	_ctrl_vit_droite = (_ctrl_vit_gopidroite >= 0)?temp1-*dst1 : *dst1-temp1;
+	*dst1 = temp1;
+	_ctrl_vit_gauche = (_ctrl_vit_gopigauche >= 0)?temp2-*dst2 : *dst2-temp2;
+	*dst2 = temp2;
 }
 
 void _ctrl_nouvel_objectif()
