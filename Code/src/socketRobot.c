@@ -25,7 +25,8 @@ void proc_exit(int sig) {
 int main(void) {
     FILE *para = fopen("bin/data/idballon.txt","r");
   if(para != NULL){
-    char idBallon [15] = fgets(idBallon, sizeof idBallon, para);
+    char idBallon [15]="";
+    fgets(idBallon, sizeof idBallon, para);
   }
   fclose(para);
 
