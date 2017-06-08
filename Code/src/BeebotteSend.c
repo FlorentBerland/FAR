@@ -3,7 +3,7 @@
 void error(const char *msg) { perror(msg); exit(0); }
 
 
-int sendToBeBotte(char *canal, char *clefCanal, char *ressource, char *data[])
+int sendToBeBotte(char *canal, char *clefCanal, char *ressource, char *data)
 {
     // data est un tableau de chaines (char[]), c-a-d un tableau de char a deux dimensions
     // printf("data[0] is %s\n",data[0]);
