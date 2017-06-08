@@ -108,7 +108,7 @@ int main(int argc,char *argv[])
     char *infoApublier[4]; // exemple de 4 infos a publier
     infoApublier[0] = "type_msg=IP";
     infoApublier[1] = "type_ent=RJ";
-    infoApublier[2] = "num=20142400";
+    infoApublier[2] = "num=873126661177012";
     infoApublier[3] = "data=162.38.111.103";
     // (attention : strcpy(infoApublier[3],"data=163.11.111.11") 
     //    ne marche pas car pas d'espace memoire alloue encore a infoApublier[3] ) 
