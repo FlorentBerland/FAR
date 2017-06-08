@@ -1,4 +1,4 @@
-#include "ipipip.h"
+#include "../headers/ipipip.h"
 
 /*int main(void)
 {
@@ -13,7 +13,7 @@ char* get_ip(void)
 	char IP[15];
     FILE* fichier = NULL;
 
-    fichier = fopen("ipipip.txt", "r");
+    fichier = fopen("bin/data/ipipip.txt", "r");
 
     if (fichier != NULL)
     {
