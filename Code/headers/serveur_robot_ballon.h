@@ -15,3 +15,4 @@
 #include <time.h>
 
 char* server();
+void chargerBallon(char*);
