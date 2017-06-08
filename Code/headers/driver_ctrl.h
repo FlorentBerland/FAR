@@ -22,6 +22,7 @@
 #include "rectangle.h"
 #include "gopigo.h"
 #include "liste.h"
+#include "serveur_robot_ballon.h"
 
 r_rect ctrl_terrain;
 r_rect ctrl_robot;
