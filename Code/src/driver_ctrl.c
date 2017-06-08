@@ -25,14 +25,22 @@ int ctrl_arret()
 
 void* _ctrl_loop_vitesse(void* args)
 {
+	int dst1 = 0;
+	int dst2 = 0;
+
 	while(_ctrl_continuer)
 	{
 		printf("\t\e[0;32m%d-ieme analyse de vitesse\e[0m\n", _ctrl_horloge_vitesse + 1);
 		// Trouver un truc pour mesurer la vitesse de chaque roue
 
 		// Pourquoi pas ça :
-		_ctrl_vit_gauche = _ctrl_calcul_vitesse(_ctrl_vit_gopigauche);
-		_ctrl_vit_droite = _ctrl_calcul_vitesse(_ctrl_vit_gopidroite);
+		//_ctrl_vit_gauche = _ctrl_calcul_vitesse(_ctrl_vit_gopigauche);
+		//_ctrl_vit_droite = _ctrl_calcul_vitesse(_ctrl_vit_gopidroite);
+
+		dst1 = enc_read(1) - dst1;
+		dst2 = enc_read(2) - dst2;
+		_ctrl_vit_droite = (float)dst1;
+		_ctrl_vit_gauche = (float)dst2;
 
 		// Et vite parce que c'est indispensable !!!
 		// C'est bon c'est fait juste au-dessus
@@ -83,16 +91,6 @@ void* _ctrl_loop(void* args)
 			printf("\t\t\e[0;36mObjectif atteint !\e[0m\n");
 			_ctrl_nouvel_objectif();
 		}
-/*
-		if(angle>.1 || angle<-.1)
-		{
-			_ctrl_virage(angle);
-		}
-		else
-		{
-			_ctrl_arret_virage();
-		}
-*/
 		_ctrl_horloge++;
 
 		usleep(CTRL_INTERVALLE * 1000);
