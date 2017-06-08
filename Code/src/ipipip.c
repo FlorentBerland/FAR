@@ -10,7 +10,7 @@
 
 char* get_ip(void)
 {
-	char IP[15];
+    char* IP = malloc(15*sizeof(char));
     FILE* fichier = NULL;
 
     fichier = fopen("bin/data/ipipip.txt", "r");
