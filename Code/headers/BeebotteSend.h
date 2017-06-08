@@ -10,4 +10,4 @@
 void error(const char *) ;
 
 
-int sendToBeBotte(char *, char *, char * char *);
+int sendToBeBotte(char *, char *, char *, char *);
