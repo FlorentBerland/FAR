@@ -17,6 +17,7 @@
 
 
 int penalty = 0;
+char idBallon [15]="";
 
 void proc_exit(int sig) {
   //wait();
@@ -25,7 +26,6 @@ void proc_exit(int sig) {
 int main(void) {
     FILE *para = fopen("bin/data/idballon.txt","r");
   if(para != NULL){
-    char idBallon [15]="";
     fgets(idBallon, sizeof idBallon, para);
   }
   fclose(para);
