@@ -109,14 +109,14 @@ int main(int argc,char *argv[])
     char *infoApublier[4]; // exemple de 4 infos a publier
     infoApublier[0] = "type_msg=IP";
     infoApublier[1] = "type_ent=RJ";
-    infoApublier[2] = "num=873126661177012";
+    infoApublier[2] = "num=491926611770128";
     infoApublier[3] = "data=162.38.111.103";
     // (attention : strcpy(infoApublier[3],"data=163.11.111.11") 
     //    ne marche pas car pas d'espace memoire alloue encore a infoApublier[3] ) 
 
     
     // !! TO DO : mettre ici le nom du "channel" ou on veut envoyer des donneees
-    char *channel = "partie2";
+    char *channel = "partie0";
     /* Par convention dans FAR on parle sur ressource "msg"
       sur laquelle on envoie une chaine contenant les couples clef:valeur separes par des virgules */
     char *ressource = "msg"; 
@@ -131,7 +131,7 @@ int main(int argc,char *argv[])
     char *clrApublier[4]; // exemple de 4 infos a publier
     clrApublier[0] = "type_msg=CLR";
     clrApublier[1] = "type_ent=RJ";
-    clrApublier[2] = "num=20142400";
+    clrApublier[2] = "num=491926611770128";
     clrApublier[3] = "data=rouge";
     // (attention : strcpy(couleurApublier[3],"data=163.11.111.11") 
     //    ne marche pas car pas d'espace memoire alloue encore a couleurApublier[3] ) 
