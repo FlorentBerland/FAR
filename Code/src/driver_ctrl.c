@@ -11,55 +11,26 @@ int ctrl_init()
 int ctrl_demarrer()
 {
 	_ctrl_continuer = true;
-	return pthread_create(&_ctrl_analyse_vitesse, NULL, &_ctrl_loop_vitesse, NULL) ||
-		pthread_create(&_ctrl_pilotage, NULL, &_ctrl_loop, NULL);
+	return pthread_create(&_ctrl_pilotage, NULL, &_ctrl_loop, NULL);
 }
 
 int ctrl_arret()
 {
 	l_detruire(_ctrl_objectifs);
 	_ctrl_continuer = false;
-	return pthread_join(_ctrl_pilotage, NULL) ||
-		pthread_join(_ctrl_analyse_vitesse, NULL);
-}
-
-void* _ctrl_loop_vitesse(void* args)
-{
-	int dst1 = 0;
-	int dst2 = 0;
-
-	while(_ctrl_continuer)
-	{
-		printf("\t\e[0;32m%d-ieme analyse de vitesse\e[0m\n", _ctrl_horloge_vitesse + 1);
-		// Trouver un truc pour mesurer la vitesse de chaque roue
-
-		// Pourquoi pas ça :
-		//_ctrl_vit_gauche = _ctrl_calcul_vitesse(_ctrl_vit_gopigauche);
-		//_ctrl_vit_droite = _ctrl_calcul_vitesse(_ctrl_vit_gopidroite);
-
-		dst1 = enc_read(1) - dst1;
-		dst2 = enc_read(2) - dst2;
-		_ctrl_vit_droite = (float)dst1;
-		_ctrl_vit_gauche = (float)dst2;
-
-		// Et vite parce que c'est indispensable !!!
-		// C'est bon c'est fait juste au-dessus
-		// Mais c'est pas précis du tout !
-		// Pas grave, il faut au moins pouvoir tester la vitesse, c'est mieux que rien
-		// Faut que j'arrête de dialoguer tout seul dans les commentaires c'est ridicule
-		// ...
-		_ctrl_horloge_vitesse++;
-
-		usleep(CTRL_INTERVALLE_ANALYSE * 1000);
-	}
-	return NULL;
+	return pthread_join(_ctrl_pilotage, NULL);
 }
 
 void* _ctrl_loop(void* args)
 {
+	int dst1 = enc_read(1);
+	int dst2 = enc_read(2);
+
 	while(_ctrl_continuer)
 	{
 		printf("\t\e[0;34m%d-ieme calcul de trajectoire : \e[0m\n", _ctrl_horloge + 1);
+
+		_ctrl_calcul_vitesse(&dst1, &dst2);
 
 		ctrl_robot = ctrl_anticipation(1);
 
@@ -260,12 +231,15 @@ void _ctrl_arret_virage()
 	motor1(1, _ctrl_vit_droite);
 }
 
-float _ctrl_calcul_vitesse(int val)
+void _ctrl_calcul_vitesse(int* dst1, int *dst2)
 {
-	if(val >= 0)
-		return MAX(val-15, 0) / (float)60;
-	else
-		return MIN(val+15, 0) / (float)60;
+	int temp1 = enc_read(1);
+	int temp2 = enc_read(2);
+
+	_ctrl_vit_droite = temp1 - *dst1;
+	*dst1 = temp;
+	_ctrl_vit_gauche = temp2 - *dst2;
+	*dst2 = temp;
 }
 
 void _ctrl_nouvel_objectif()

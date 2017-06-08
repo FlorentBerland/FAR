@@ -8,7 +8,6 @@
 // est considere immobile
 #define RAPPORT_VITESSES_MIN .05 // Rapport de vitesse entre les
 // deux roues pour considerer que le robot tourne
-#define CTRL_INTERVALLE_ANALYSE 250 // Intervalle entre deux analyses en ms
 #define ESPACEMENT_ROUES 8 // Ecart entre les roues
 #define DEPORT_ROUES 3.5 // Distance entre le centre et l'axe des roues
 #define CTRL_INTERVALLE 500 // Pas du moteur physique en ms
@@ -32,8 +31,6 @@ r_rect ctrl_depart;
 r_rect ctrl_arrivee;
 
 Liste* _ctrl_objectifs; // Objectifs a faire
-pthread_t _ctrl_analyse_vitesse; // Thread d'analyse des vitesses
-int _ctrl_horloge_vitesse; // Temps en ticks depuis le demarrage du capteur de vitesse
 pthread_t _ctrl_pilotage; // Thread principal du driver
 int _ctrl_horloge; // Temps en ticks depuis le demarrage du driver
 bool _ctrl_continuer; // Continuer le pilotage ou terminer les threads
@@ -53,9 +50,6 @@ int ctrl_demarrer();
 
 // Arreter le driver
 int ctrl_arret();
-
-// Boucle d'analyse de la vitesse
-void* _ctrl_loop_vitesse(void*);
 
 // Boucle de controle du driver
 void* _ctrl_loop(void*);
@@ -108,8 +102,8 @@ void _ctrl_virage(double);
 // Arrete le virage sans arreter le mouvement
 void _ctrl_arret_virage();
 
-// Convertit une vitesse gopigo (0-255) en cm/s
-float _ctrl_calcul_vitesse(int);
+// Calcule les vitesses des roues en cm/tick
+void _ctrl_calcul_vitesse(int *, int *);
 
 // Ajoute a la liste l'objectif suivant lorsque celui en cours est atteint
 void _ctrl_nouvel_objectif();
