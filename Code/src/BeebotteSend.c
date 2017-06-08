@@ -5,6 +5,7 @@
 #include <sys/socket.h> /* socket, connect */
 #include <netinet/in.h> /* struct sockaddr_in, struct sockaddr */
 #include <netdb.h> /* struct hostent, gethostbyname */
+#include "../headers/ipipip.h"
 
 void error(const char *msg) { perror(msg); exit(0); }
 
@@ -109,7 +110,9 @@ int main(int argc,char *argv[])
     infoApublier[0] = "type_msg=IP";
     infoApublier[1] = "type_ent=RJ";
     infoApublier[2] = "num=873126661177012";
-    infoApublier[3] = "data=162.38.111.103";
+    char* data="data=";
+    strcat(data,getIP());
+    infoApublier[3] = data;
     // (attention : strcpy(infoApublier[3],"data=163.11.111.11") 
     //    ne marche pas car pas d'espace memoire alloue encore a infoApublier[3] ) 
 
