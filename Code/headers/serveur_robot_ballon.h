@@ -1,3 +1,6 @@
+#ifndef DEF_BALLON
+#define DEF_BALLON
+
 #include <sys/socket.h>
 #include <netdb.h>
 #include <netinet/in.h>
@@ -16,3 +19,5 @@
 
 char* server();
 void chargerBallon(char*);
+
+#endif
