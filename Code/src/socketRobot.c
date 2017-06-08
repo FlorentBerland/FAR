@@ -1,5 +1,4 @@
 // tcp_serveur.c
-// VALIDATEUR DE BUT
 
 #include <stdio.h>
 #include <string.h>
@@ -13,21 +12,20 @@
 #include <signal.h>
 #define PORT 10000
 
-//pouvoir définir la couleur du robot
+// Pour les variables globales suvantes, les valeurs sont codée en brut, et de manière arbitraire
+// A vous de les renseigner en fonction de votre réponse
 
-char adrRobot [15] = "162.38.111.103";
-char idBallon [15] = "1";
-char coulRobot[15] = "rouge";// ou "bleu";
+
 int penalty = 0;
 
 void proc_exit(int sig) {
-  sleep(2);
+  //wait();
 }
 
 int main(void) {
-  FILE *para = fopen("bin/data/idballon.txt","r");
+    FILE *para = fopen("bin/data/idballon.txt","r");
   if(para != NULL){
-    fgets(idBallon, sizeof idBallon, para);
+    char idBallon [15] = fgets(idBallon, sizeof idBallon, para);
   }
   fclose(para);
 
@@ -38,7 +36,7 @@ int main(void) {
   struct sockaddr_in sin;
   int sock;
   socklen_t recsize = sizeof(sin);
-
+    
   /* Socket et contexte d'adressage du client */
   struct sockaddr_in csin;
   int csock;
@@ -46,7 +44,7 @@ int main(void) {
 
   /* Pour forker le moment venu */
   pid_t pid;
-
+ 
   /* Creation d'une socket */
   sock = socket(AF_INET, SOCK_STREAM, 0);
 
@@ -62,7 +60,7 @@ int main(void) {
   for(;;) {
     /* Attente d'une connexion client */
     csock = accept(sock, (struct sockaddr*)&csin, &crecsize);
-    printf("Le validateur de but fait une demande !\nIl se connecte avec la socket %d de %s:%d\n",
+    printf("Le validateur de but fait une demande !\nIl se connecte avec la socket %i de %s:%d\n",
            csock, inet_ntoa(csin.sin_addr), htons(csin.sin_port));
 
     pid = fork();
@@ -70,16 +68,13 @@ int main(void) {
     if (pid == 0) {
       /* Envoi de donnees au client */
       char buffer[50] = "";
-      strcat(buffer,adrRobot);
-      strcat(buffer,"/");
+    
       strcat(buffer,idBallon);
-      strcat(buffer,"/");
-      strcat(buffer,coulRobot);
-	    strcat(buffer,"/");
-      send(csock, buffer,50 , 0);
+      
+      send(csock, buffer, 50 , 0);
 	    printf("Envoi de %s\n", buffer);
 
-
+    
         /* Reception de donnees du client */
         int res = recv(csock, buffer, 32, 0);
         if (res == 0)
@@ -97,10 +92,9 @@ int main(void) {
 
         else if (strcmp(buffer,"-1")==0) {
             printf("Je viens de marquer contre mon camp.\n");
-            penalty = 0,5;
             }
 
-        else if (strcmp(buffer,"J")==0) {
+        else if (strcmp(buffer,"E")==0) {
             printf("Mon propriétaire n'est pas référencé.\n");
             penalty = 2;
             }
@@ -115,7 +109,7 @@ int main(void) {
           printf("Suite à une faute de votre part, vous avez une pénalité de %i minutes. \n", penalty);
         }
 
-
+    
 
       /* Fermeture de la socket dans les deux sens */
       shutdown(csock, 2);
