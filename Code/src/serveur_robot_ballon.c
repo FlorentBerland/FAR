@@ -1,4 +1,3 @@
-
 #include "../headers/serveur_robot_ballon.h"
 #define PORT 10002
 
@@ -47,6 +46,13 @@ char* server(){
 
   return buffer;
 
+}
+
+void chargerBallon(char* ballon){
+  char *ligne= ballon;
+  FILE *para = fopen("bin/data/idballon.txt","r");
+  fprintf(para, "%s\n",ligne);
+  fclose(para);
 }
 
 /*int main(){
