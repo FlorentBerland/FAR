@@ -1,9 +1,16 @@
-#include "../headers/BeebotteSend.h"
+#include <stdio.h> /* printf, sprintf */
+#include <stdlib.h> /* exit, atoi, malloc, free */
+#include <unistd.h> /* read, write, close */
+#include <string.h> /* memcpy, memset */
+#include <sys/socket.h> /* socket, connect */
+#include <netinet/in.h> /* struct sockaddr_in, struct sockaddr */
+#include <netdb.h> /* struct hostent, gethostbyname */
+#include "../headers/ipipip.h"
 
 void error(const char *msg) { perror(msg); exit(0); }
 
 
-int sendToBeBotte(char *canal, char *clefCanal, char *ressource, char *data)
+int sendToBeBotte(char *canal, char *clefCanal, char *ressource, char *data[])
 {
     // data est un tableau de chaines (char[]), c-a-d un tableau de char a deux dimensions
     // printf("data[0] is %s\n",data[0]);
@@ -103,15 +110,13 @@ int main(int argc,char *argv[])
     infoApublier[0] = "type_msg=IP";
     infoApublier[1] = "type_ent=RJ";
     infoApublier[2] = "num=873126661177012";
-    char* data="data=";
-    strcat(data,get_ip());
-    infoApublier[3] = data;
+    infoApublier[3] = "data=162.38.111.103";
     // (attention : strcpy(infoApublier[3],"data=163.11.111.11") 
     //    ne marche pas car pas d'espace memoire alloue encore a infoApublier[3] ) 
 
     
     // !! TO DO : mettre ici le nom du "channel" ou on veut envoyer des donneees
-    char *channel = "partie0";
+    char *channel = "partie2";
     /* Par convention dans FAR on parle sur ressource "msg"
       sur laquelle on envoie une chaine contenant les couples clef:valeur separes par des virgules */
     char *ressource = "msg"; 
@@ -135,4 +140,3 @@ int main(int argc,char *argv[])
     sendToBeBotte(channel,channelKey,ressource,clrApublier);
 return 0;
 }
-
