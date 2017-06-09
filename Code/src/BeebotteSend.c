@@ -110,20 +110,20 @@ int main(int argc,char *argv[])
     infoApublier[0] = "type_msg=IP";
     infoApublier[1] = "type_ent=RJ";
     infoApublier[2] = "num=491926611770128";
-    infoApublier[3] = "data=162.38.111.103";
+    infoApublier[3] = "data=162.38.33.209";
     // (attention : strcpy(infoApublier[3],"data=163.11.111.11") 
     //    ne marche pas car pas d'espace memoire alloue encore a infoApublier[3] ) 
 
     
     // !! TO DO : mettre ici le nom du "channel" ou on veut envoyer des donneees
-    char *channel = "partie0";
+    char *channel = "partie2";
     /* Par convention dans FAR on parle sur ressource "msg"
       sur laquelle on envoie une chaine contenant les couples clef:valeur separes par des virgules */
     char *ressource = "msg"; 
     // !! TO DO : mettre ci-dessous le token du canal !!
     // canal partie0 : 1494793564147_KNl54g97mG89kQSZ
     // canal testVB : 1494771555601_5SGQdxJaJ8O1HBj4
-    char *channelKey = "1494793564147_KNl54g97mG89kQSZ";
+    char *channelKey = "1496910817723_BN8WjR1uPZzIdCzp";
 
     /* Envoie a BeeBotte en methode POST */
     sendToBeBotte(channel,channelKey,ressource,infoApublier);

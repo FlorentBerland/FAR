@@ -40,7 +40,7 @@ void* _ctrl_loop(void* args)
 
 		if(distance>10)
 		{
-			if(angle>.3 || angle<-.3)
+			if(angle>.5 || angle<-.5)
 			{
 				_ctrl_virage(angle);
 			}
@@ -204,15 +204,17 @@ int _ctrl_temps_obj_angle()
 void _ctrl_virage(double angle)
 {
 	int vitesse = (_ctrl_vit_gopigauche+_ctrl_vit_gopidroite)/2;
+	int increment = 50;
+	if(!_ctrl_en_mouvement()) increment = 100;
 	if(angle<0)
 	{
-		_ctrl_vit_gopigauche = vitesse+50;
-		_ctrl_vit_gopidroite = vitesse-50;
+		_ctrl_vit_gopigauche = vitesse+increment;
+		_ctrl_vit_gopidroite = vitesse-increment;
 	}
 	else
 	{
-		_ctrl_vit_gopigauche = vitesse-50;
-		_ctrl_vit_gopidroite = vitesse+50;
+		_ctrl_vit_gopigauche = vitesse-increment;
+		_ctrl_vit_gopidroite = vitesse+increment;
 	}
 
 	if(_ctrl_vit_gopigauche >= 0)

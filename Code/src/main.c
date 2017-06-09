@@ -117,7 +117,7 @@ int main(int argc, char **argv)
 
 	ctrl_demarrer();
 
-	for(i=1;i<=60;i++)
+	for(i=1;i<=180;i++)
 	{
 		sleep(1);
 		printf("\e[1;31m%d secondes ecoulees\e[0m\n", i);
